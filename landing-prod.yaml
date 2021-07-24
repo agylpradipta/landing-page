@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: landing-page-production
-        image: starlord345/landing:production
+        image: starlord345/landing:latest
         ports:
         - containerPort: 80
 
