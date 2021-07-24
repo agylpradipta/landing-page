@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: landing-page-production
+  namespace: production
+  labels:
+    app: landing-page-production
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: landing-page-production
+  template:
+    metadata:
+      labels:
+        app: landing-page-production
+    spec:
+      containers:
+      - name: landing-page-production
+        image: starlord345/landing:production
+        ports:
+        - containerPort: 80
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: landing-production-service
+  namespace: production
+spec:
+  selector:
+    app: landing-page-production
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+
+---
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-production-landing
+  namespace: production
+spec:
+  rules:
+  - host: landing.agylpradipta.xyz
+    http:
+      paths:
+        - backend:
+            serviceName: landing-production-service
+            servicePort: 80
