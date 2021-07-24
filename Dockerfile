@@ -1,6 +1,5 @@
-FROM nginx:alpine
+FROM php:7.2-apache
 
-COPY app/ /usr/share/nginx/html
+COPY app/ /var/www/html
 
 EXPOSE 80
-EXPOSE 8080
