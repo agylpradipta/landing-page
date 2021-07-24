@@ -1,0 +1,53 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: landing-page-staging
+  namespace: staging
+  labels:
+    app: landing-page-staging
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: landing-page-staging
+  template:
+    metadata:
+      labels:
+        app: landing-page-staging
+    spec:
+      containers:
+      - name: landing-page-staging
+        image: starlord345/landing:staging
+        ports:
+        - containerPort: 80
+
+---
+
+kind: Service
+apiVersion: v1
+metadata:
+  name: landing-staging-service
+  namespace: staging
+spec:
+  selector:
+    app: landing-page-staging
+  ports:
+  - protocol: TCP
+    port: 80
+    targetPort: 80
+
+---
+
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: ingress-staging-pesbuk
+  namespace: staging
+spec:
+  rules:
+  - host: landing-staging.agylpradipta.xyz
+    http:
+      paths:
+        - backend:
+            serviceName: landing-staging-service
+            servicePort: 80
