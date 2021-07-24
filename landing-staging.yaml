@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
       - name: landing-page-staging
-        image: starlord345/landing:staging$BUILD_NUMBER
+        image: starlord345/landing:latest
         ports:
         - containerPort: 80
 
